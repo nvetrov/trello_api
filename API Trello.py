@@ -13,10 +13,15 @@ with open("API_token.txt", "r") as token_f:
 with open("key.txt", "r") as key_f:
     api_key = key_f.readline().strip()
 
-# token_key = str(input("token_key:"))
-# api_key = str(input("api_key:"))
-# board_id = str(input("board_id:"))
-#
+with open("key.txt", "r") as key_f:
+    board_id = key_f.readline().strip()
+
+
+
+token_key = str(input("token_key:"))
+api_key = str(input("api_key:"))
+board_id = str(input("board_id:"))
+
 
 auth_params = {
     'key': str(api_key),
@@ -24,7 +29,6 @@ auth_params = {
 }
 
 base_url = "https://api.trello.com/1/{}"
-board_id = "o7XEVuRY"  # https://trello.com/b/o7XEVuRY/createwithapi
 
 
 # TODO: Добавьте рядом с названием колонки цифру, отражающую количество задач в ней.
@@ -52,6 +56,7 @@ def move(name, column_name):
     task_id = None
     for column in column_data:
         column_tasks = requests.get(base_url.format('lists') + '/' + column['id'] + '/cards', params=auth_params).json()
+        print(column_tasks)
         for task in column_tasks:
             if task['name'] == name:
                 task_id = task['id']
@@ -60,21 +65,12 @@ def move(name, column_name):
             break
 
             # Теперь, когда у нас есть id задачи, которую мы хотим переместить,
+    # Получим ID колонки, в которую мы будем перемещать задачу
     column_id = column_check(column_name)
-    # Получим ID колонки, в которую мы будем перемещать задачу  column_id = column_check(column_name)
     if column_id is None:
         column_id = add(column_name)['id']
         # И совершим перемещение:
-    requests.put(base_url.format('cards') + '/' + task_id + '/idList', data={column_id: column_id, **auth_params})
-
-    # Теперь, когда у нас есть id задачи, которую мы хотим переместить
-    # Переберём данные обо всех колонках, пока не найдём ту, в которую мы будем перемещать задачу
-    for column in column_data:
-        if column['name'] == column_name:
-            # И выполним запрос к API для перемещения задачи в нужную колонку
-            requests.put(base_url.format('cards') + '/' + task_id + '/idList',
-                         data={column_id: column['id'], **auth_params})
-            break
+    requests.put(base_url.format('cards') + '/' + task_id + '/idList', data={'value': column_id, **auth_params})
 
 
 # TODO: Реализуйте создание колонок.
@@ -105,16 +101,17 @@ def create(name, column_name):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) <= 2:
-        read()
-    elif sys.argv[1] == 'create':
-        create(sys.argv[2], sys.argv[3])
-    # elif sys.argv[1] == 'add':
-    #     add(sys.argv[2])
-    elif sys.argv[1] == 'move':
-        move(sys.argv[2], sys.argv[3])
-    else:
-        print('Введите корректные данные')
+    move("New Value", "Готово")
+    # if len(sys.argv) <= 2:
+    #     read()
+    # elif sys.argv[1] == 'create':
+    #     create(sys.argv[2], sys.argv[3])
+    # # elif sys.argv[1] == 'add':
+    # #     add(sys.argv[2])
+    # elif sys.argv[1] == 'move':
+    #     move(sys.argv[2], sys.argv[3])
+    # else:
+    #     print('Введите корректные данные')
 
 # python API\ Trello.py create "create" "Готово"
 # python API\ Trello.py move "create" "В процессе"
