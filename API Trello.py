@@ -16,12 +16,9 @@ with open("key.txt", "r") as key_f:
 with open("key.txt", "r") as key_f:
     board_id = key_f.readline().strip()
 
-
-
 token_key = str(input("token_key:"))
 api_key = str(input("api_key:"))
 board_id = str(input("board_id:"))
-
 
 auth_params = {
     'key': str(api_key),
