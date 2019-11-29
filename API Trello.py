@@ -53,7 +53,6 @@ def move(name, column_name):
     task_id = None
     for column in column_data:
         column_tasks = requests.get(base_url.format('lists') + '/' + column['id'] + '/cards', params=auth_params).json()
-        print(column_tasks)
         for task in column_tasks:
             if task['name'] == name:
                 task_id = task['id']
