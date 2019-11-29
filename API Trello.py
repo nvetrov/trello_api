@@ -1,7 +1,7 @@
-# D1.11
+"""D1.11 Домашнее задание """
 
 # TODO:Обработайте совпадающие имена задач *
-import pdb
+# import pdb
 import sys
 
 import requests
