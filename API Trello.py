@@ -7,18 +7,18 @@ import sys
 import requests
 
 # Адрес, на котором расположен API Trello, # Именно туда мы будем отправлять HTTP запросы.
-with open("API_token.txt", "r") as token_f:
-    token_key = token_f.readline().strip()
+# with open("API_token.txt", "r") as token_f:
+#     token_key = token_f.readline().strip()
+#
+# with open("key.txt", "r") as key_f:
+#     api_key = key_f.readline().strip()
+#
+# with open("board_id.txt", "r") as key_f:
+#     board_id = key_f.readline().strip()
 
-with open("key.txt", "r") as key_f:
-    api_key = key_f.readline().strip()
-
-with open("board_id.txt", "r") as key_f:
-    board_id = key_f.readline().strip()
-
-# token_key = str(input("token_key:"))
-# api_key = str(input("api_key:"))
-# board_id = str(input("board_id:"))
+token_key = str(input("token_key:"))
+api_key = str(input("api_key:"))
+board_id = str(input("board_id:"))
 
 auth_params = {
     'key': str(api_key),
